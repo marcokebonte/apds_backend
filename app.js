@@ -3,9 +3,13 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const https = require('https')
-const cors = require('cors');
 const hsts = require('./middleware/hsts')
 const fs = require('fs');
+const helmet = require('helmet');
+const cors = require('cors');
+const morgan = require('morgan');
+
+
 
 //DB
 mongoose
@@ -14,9 +18,12 @@ mongoose
   
 
 //Middleware
+app.use(helmet());
 app.use(cors({origin:'https://localhost:3000', optionsSuccessStatus: 200}))
 app.use(express.json());
 app.use(hsts);
+app.use(morgan('tiny'));
+
 
 //Routers
 app.use('/api/auth', require("./routes/auth"));
@@ -31,6 +38,7 @@ app.use((reg,res,next)=>
  next();
 });
 
+//Listen
 https.createServer(
   {
     key: fs.readFileSync('./keys/privatekey.pem'),
