@@ -19,7 +19,7 @@ mongoose
 
 //Middleware
 app.use(helmet());
-app.use(cors({origin:'https://localhost:3000', optionsSuccessStatus: 200}))
+app.use(cors({origin:'https://localhost:4200', optionsSuccessStatus: 200}))
 app.use(express.json());
 app.use(hsts);
 app.use(morgan('tiny'));
